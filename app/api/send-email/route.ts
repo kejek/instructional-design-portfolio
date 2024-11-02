@@ -6,7 +6,7 @@ export async function POST(request: Request) {
 
   // Create a transporter using SMTP
   const transporter = nodemailer.createTransport({
-	host: "sandbox.smtp.mailtrap.io",
+	host: process.env.EMAIL_HOST,
 	port: 2525,
 	auth: {
 	  user: process.env.EMAIL_USER,
