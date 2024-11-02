@@ -8,7 +8,6 @@ export async function POST(request: Request) {
   const transporter = nodemailer.createTransport({
 	host: process.env.EMAIL_HOST,
 	port: 587,
-	secure: true,
 	auth: {
 	  user: process.env.EMAIL_USER,
 	  pass: process.env.EMAIL_PASSWORD,
@@ -18,7 +17,7 @@ export async function POST(request: Request) {
   try {
     // Send mail with defined transport object
     await transporter.sendMail({
-      from: `"Portfolio Contact Form" <mandieportfolio@gmail.com>`,
+      from: `"Portfolio Contact Form" <${process.env.EMAIL_FROM}>`,
       to: "mandielcarter@gmail.com",
       subject: `New message from ${name}`,
       text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`,
@@ -29,6 +28,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ success: true })
   } catch (error) {
+	console.log(new Error().stack)
     console.error("Error sending email:", error)
     return NextResponse.json({ error: 'Failed to send email' }, { status: 500 })
   }
